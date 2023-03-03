@@ -1,36 +1,52 @@
 <template>
-    <header class="container">
-        <div class="logo-container">
-            <img src="/Yu-Gi-Oh.png" class="logo">
+    <header class="background">
+        <div class="container">
+            <div class="logo-container">
+                <img :src= "srcLogo"  class="logo">
+            </div>
+            
+            <h1>
+                {{ title }}
+            </h1>
         </div>
-
-        <h1>
-            Yu-Gi-Ho
-        </h1>
     </header>
 </template>
 
 <script>
 export default {
 
+    data() {
+        return {
+            srcLogo: '/Yu-Gi-Oh.png',
+            title: 'Yu-Gi-Ho'
+        }
+    },
+
 }
 </script>
 
 <style lang="scss" scoped>
-header {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 48px;
-    // background-color: rgba($color: #000000, $alpha: 0.3);
 
-    .logo-container{
-        height: 100%;
+.background{
+
+    background-color: black;
+    .container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 48px;
+        gap: 30px;
+        // background-color: rgba($color: #000000, $alpha: 0.3);
+    
+        .logo-container{
+            height: 100%;
+        }
+    
+        h1{
+            color: white;
+            justify-self: center;
+        }
     }
 
-    h1{
-        color: white;
-        justify-self: center;
-    }
 }
 </style>
