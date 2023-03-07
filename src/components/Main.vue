@@ -1,8 +1,12 @@
+<!-- v-for="(card, i) in cards" :key="i" -->
+
 <template>
     <main class="background">
-        <div class="container">
-            <div class="cards">
-                
+        <div class="cards-container">
+            <div class="container">
+                <div class="grid">
+                    <Card v-for="(card, i) in cards" :key="i" :cardImage="card.card_images[0].image_url" :cardName="card.name" :cardArchetype="card.type" class="cards"/>
+                </div>
             </div>
         </div>
     </main>
@@ -10,29 +14,52 @@
 
 <script>
 import axios from 'axios'
-
+import Filter from './Filter.vue'
 import Card from './Card.vue'
 
 export default {
     components: {
-        Card
+        Card,
+        Filter
     },
 
     data() {
         return {
-            cards: []
+            cards: [],
+            // index: 1
         }
     },
 
     methods: {
         fetchCard() {
-            axios.get('https://db.ygoprodeck.com/api/v7/cardinfo.php').then((res) => {
-                console.log(res)
+            axios.get('https://db.ygoprodeck.com/api/v7/cardinfo.php',{
+                params:{
+                    num: 20,
+                    offset:3500
+                }
+            }).then((res) => {
+                this.cards = res.data.data
+                console.log(this.cards)
             })
         }
     },
 
-    mounted() {
+    // computed: {
+    //     cardImage() {
+    //         return this.cards.data[0].card_images[0].image_url
+    //     },
+
+    //     name() {
+    //         return this.cards.data.name
+    //     },
+
+    //     archetype() {
+    //         return this.cards.data[0].archetype
+    //     }
+    // },
+
+    created() {
+        this.fetchCard()
 
     },
 
@@ -40,18 +67,25 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.background {
+    position: sticky;
+        top: 0;
 
-.background{
-    background-image: url(/CGvgvNH-yugioh-wallpapers-transformed.jpeg);
-    background-size: cover;
-    background-repeat: no-repeat;
-    height: calc(100vh - 48px);
-    width: 100%;
-    .container {
-        background-color: rgba($color: #000000, $alpha: 0.5);
-        padding: 40px;
-        height: 100%;
+    // .cards-container{
+    //     position: sticky;
+    //     top: 0;
+    // }
+}
+
+.container {
+    background-color: rgba($color: #000000, $alpha: 0.5);
+    padding: 40px;
+    height: 100%;
+
+    .grid{
+        display: grid;
+        grid-template-columns: repeat(5,1fr);
+        gap: 20px;
     }
-
 }
 </style>
